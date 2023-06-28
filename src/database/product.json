@@ -1,11 +1,13 @@
 [
     {
+        "id":1,
         "name": "Tournevis",
         "description": "Le tournevis est un outil essentiel dans la boîte à outils de tout bricoleur.",
         "price": 11.99,
         "quantity": 12
     },
-{
+    {
+        "id":2,
         "name": "Marteau",
         "description": "Le marteau est un outil polyvalent utilisé dans de nombreuses applications, que ce soit pour le bricolage, la construction ou la menuiserie.",
         "price": 21.99,
