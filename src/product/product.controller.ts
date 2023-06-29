@@ -1,22 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductInterface } from './product.interface';
 
-@Controller('product')
+@Controller('')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
+  // Création d'un produit
   @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  create(@Body() productInterface: ProductInterface) {
+    return this.productService.create(productInterface);
   }
-
+  // Récupération de tous les produits
   @Get()
   findAll() {
     return this.productService.findAll();
   }
-
+  
+  // Récupération d'un produit
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number): ProductInterface {
+    return this.productService.findOne(id);
+  }
+  // Modification d'un produit
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+    return this.productService.update(+id, updateProductDto);
+  }
+  // Suppression d'un produit
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.productService.remove(+id);
