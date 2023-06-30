@@ -26,8 +26,8 @@ export class ProductController {
   }
   // Modification d'un produit
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
+  update(@Param('id') id: string, @Body() ProductInterface) {
+    return this.productService.update(+id, ProductInterface);
   }
   // Suppression d'un produit
   @Delete(':id')
