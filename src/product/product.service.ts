@@ -34,10 +34,13 @@ export class ProductService {
     const index = this.jsonData.findIndex(product => product.id === id);
     return index
   }
-
+  findName(productInterface) {
+    const productName: ProductInterface = this.jsonData.find(product => product.name === productInterface.name)
+    return productName
+  }
   create(productInterface: ProductInterface) {
     // Permet de récupérer si un le nom existe déja
-    const productName: ProductInterface = this.jsonData.find(product => product.name === productInterface.name)
+    const productName = this.findName(productInterface)
 
     // error si nom déja existant
     if (productName) {
@@ -82,8 +85,9 @@ export class ProductService {
   update(id: number, productInterface: ProductInterface) {
     // Je récupère l'index de l'élément avec l'ID spécifié
     const index = this.findID(id)
+    const productName = this.findName(productInterface)
 
-    if (id === -1) {
+    if (index === -1 || productName) {
       // L'élément n'existe pas, générer une erreur
       this.errorReport("Ce produit n'existe pas");
     }
