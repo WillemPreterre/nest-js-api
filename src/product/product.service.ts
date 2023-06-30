@@ -87,9 +87,13 @@ export class ProductService {
     const index = this.findID(id)
     const productName = this.findName(productInterface)
 
-    if (index === -1 || productName) {
+    if (index === -1) {
       // L'élément n'existe pas, générer une erreur
       this.errorReport("Ce produit n'existe pas");
+    }
+    if (productName) {
+      // L'élément n'existe pas, générer une erreur
+      this.errorReport("Ce produit existe déja");
     }
 
     // Je récupère les infos de mon produit
