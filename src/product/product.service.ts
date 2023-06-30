@@ -28,12 +28,21 @@ export class ProductService {
   // Permet d'ajouter un élément dans le fichier json
   addToJson(objectToJson) {
     fs.writeFileSync(this.filePath, objectToJson)
-
   }
 
+  findID(id) {
+    const index = this.jsonData.findIndex(product => product.id === id);
+    return index
+  }
 
   create(productInterface: ProductInterface) {
+    // Permet de récupérer si un le nom existe déja
+    const productName: ProductInterface = this.jsonData.find(product => product.name === productInterface.name)
 
+    // error si nom déja existant
+    if (productName) {
+      this.errorReport("ce produit existe déja")
+    }
     // Permet d'ajouter automatiquement un id en fonction du dernier élément créée
     const maxId: number = Math.max(...this.jsonData.map((product) => product.id));
     const id: number = maxId + 1;
@@ -48,7 +57,7 @@ export class ProductService {
     const objectToJson = this.stringifyJSON(this.jsonData)
     // Ajoute la donnée dans le json
     this.addToJson(objectToJson)
-    return objectToJson;
+    return productName;
   }
 
   // Récupération de tous les produits
@@ -72,7 +81,7 @@ export class ProductService {
   // Modification produit
   update(id: number, productInterface: ProductInterface) {
     // Je récupère l'index de l'élément avec l'ID spécifié
-    const index = this.jsonData.findIndex(product => product.id === id);
+    const index = this.findID(id)
 
     if (id === -1) {
       // L'élément n'existe pas, générer une erreur
@@ -98,7 +107,7 @@ export class ProductService {
   // Suppression produit
   remove(id: number) {
     // Récupération de l'id du produit que l'on veut supprimer
-    const productId = this.jsonData.findIndex(product => product.id === id)
+    const productId = this.findID(id)
 
     // Erreur si le produit n'existe pas
     if (productId === -1) {
@@ -106,9 +115,9 @@ export class ProductService {
     }
     // Suppression du produit avec l'id
     this.jsonData.splice(productId, 1)
-    // On update le json
+
     const objectToJson = this.stringifyJSON(this.jsonData)
-    // Ajout du nouveau tableau
+    // Ajout du nouveau tableau dans le json
     this.addToJson(objectToJson)
     return productId
   }
